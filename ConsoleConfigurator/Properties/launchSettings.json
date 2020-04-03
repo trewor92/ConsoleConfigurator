@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ConsoleConfigurator": {
+      "commandName": "Project",
+      "commandLineArgs": "envName=envName1 "
+    }
+  }
+}
