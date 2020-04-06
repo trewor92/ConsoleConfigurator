@@ -26,7 +26,7 @@ namespace ConsoleConfigurator
             {
                 if (_writeBackup && match.Success)
                     AddToBackup(pair.Key, match.Groups["defName"].Value);
-                return match.Value.Replace(match.Groups["defName"].Value, pair.Value);
+                return match.Value.Replace(match.Groups["defName"].Value, pair.Value.AddQuotesIfNotInt());
             });
         }
 

@@ -28,17 +28,17 @@ namespace ConsoleConfigurator
             _repo = repo;
         }
 
-        private async Task ReplaceAllAsync()
+        private async Task<string> ReplaceAllAsync()
         {
-            bool createBackup = !_repo.HasBackup;
-
+            bool createBackup = _repo.HasBackup;
+            string result=null;
             foreach (var path in _repo.GetPaths())
             {
                 if (ExistConfigFile(path))
                 {
-                    string currentFile = ReadFromFileAsync(path).Result;
+                    string currentFile = await ReadFromFileAsync(path);
                     FluentFunctionsReplacer fluentFunctionsReplacer = new FluentFunctionsReplacer(currentFile, createBackup);
-                    string result = fluentFunctionsReplacer.ReplaceFunctions(_repo.GetEnviroment());
+                    result = fluentFunctionsReplacer.ReplaceFunctions(_repo.GetEnviroment());
                     await SaveToFileAsync(path, result);
                     if (createBackup)
                     {
@@ -47,9 +47,10 @@ namespace ConsoleConfigurator
                     }
                 }
             }
+            return result;
         }
 
-        private async Task RollbackAsync()
+        private async Task<string> RollbackAsync()
         {
             string path = _repo.GetBackupFilePath();
             string jsonBackup = await ReadFromFileAsync(_repo.GetBackupConfigPath());
@@ -59,12 +60,15 @@ namespace ConsoleConfigurator
             string result = fluentFunctionsReplacer.ReplaceFunctions(backupDict);
 
             await SaveToFileAsync(path, result);
+            return result;
         }
 
-        public async Task RunAsync()
+        public async Task<string> RunAsync()
         {
-            if (_repo.IsRollback) await RollbackAsync();
-            else await ReplaceAllAsync();
+            string result;
+            if (_repo.IsRollback) result =  await RollbackAsync();
+            else result = await ReplaceAllAsync();
+            return result;
         }
 
         private bool ExistConfigFile(string path)

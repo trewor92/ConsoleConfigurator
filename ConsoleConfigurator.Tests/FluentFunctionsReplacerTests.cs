@@ -23,7 +23,7 @@ env('3').default({oldParam2}).func().exec();";
 
             string result = fluentFunctionsReplacer.ReplaceFunctions(dictionary);
 
-            Assert.Equal(initial.Replace(oldParam1, newParameter).Replace(oldParam2, newParameter), result);
+            Assert.Equal(initial.Replace(oldParam1, $"'{newParameter}'").Replace(oldParam2, $"'{newParameter}'"), result);
         }
 
         [Fact]

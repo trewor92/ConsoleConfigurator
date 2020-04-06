@@ -18,4 +18,13 @@
     <ProjectReference Include="..\ConsoleConfigurator\ConsoleConfigurator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\testConfigInitial.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\testConfigExpected.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

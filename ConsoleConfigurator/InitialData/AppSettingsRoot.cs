@@ -21,7 +21,7 @@ namespace ConsoleConfigurator.InitialData
             _configuration.FixOverridenArrays();
         }
 
-        public virtual string GetBasePath()
+        public string GetBasePath()
         {
             string basePath = _configuration["configurator:basePath"];
             if (basePath == null)
@@ -29,20 +29,20 @@ namespace ConsoleConfigurator.InitialData
             return basePath;
         }
 
-        public virtual string GetBackupPath()
+        public string GetBackupPath()
         {
             string backupPath = _configuration["configurator:backupPath"];
             return backupPath;
         }
 
-        public virtual string[] GetFoldersToProcess()
+        public string[] GetFoldersToProcess()
         {
             string[] foldersToProcess = _configuration.GetSection("configurator:foldersToProcess")
                 .Get<string[]>()?.Where(x => !string.IsNullOrEmpty(x)).ToArray();  //configurator:foldersToProcess:1 :2 etc
             return foldersToProcess;
         }
 
-        public virtual string[] GetFilesToProcess()
+        public string[] GetFilesToProcess()
         {
             string[] filesToProcess = _configuration.GetSection("configurator:filesToProcess").Get<string[]>().Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
@@ -66,15 +66,15 @@ namespace ConsoleConfigurator.InitialData
                 throw new Exception("Environment is not found!");
         }
 
-        public virtual string GetRollback() 
+        public string GetRollback() 
         {
             string rollback = _configuration["rollback"];
             return rollback;
         }
 
-        public virtual string GetEnvName() 
+        public string GetEnvName() 
         {
-            string envName = _configuration["envName"];
+            string envName = _configuration["apply"];
             if (envName == null)
                 throw new Exception("Required environment name is not defined!");
             return envName;
